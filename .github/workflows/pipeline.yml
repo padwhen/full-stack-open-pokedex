@@ -48,7 +48,7 @@ jobs:
         with:
           command: npm run test:e2e
           start: npm run start-prod 
-          wait-on: https://yourappurl.fly.dev
+          wait-on: https://padwhenpokedex.fly.dev/
 
   tag_release:
     needs: [build, deploy, e2e_tests]
