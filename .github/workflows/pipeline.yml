@@ -60,3 +60,20 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMB: patch
+
+  notify_build:
+    needs: [build, deploy, e2e_tests, tag_release]
+    - name: Test Success
+      uses: rjstone/discord-webhook-notify@v1
+      if: ${{ success() }}
+      with:
+        severity: info
+        details: Build Successful
+        webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
+    - name: Test Failure
+      uses: rjstone/discord-webhook-notify@v1
+      if: ${{ failure() }}
+      with:
+        severity: info
+        details: Test Failed!
+        webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
